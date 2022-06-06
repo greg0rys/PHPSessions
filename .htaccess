@@ -1,0 +1,5 @@
+# this is a special file, that controls https rules on the apache web server.
+
+RewriteEngine On
+RewriteCond %{HTTPS} !on
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
