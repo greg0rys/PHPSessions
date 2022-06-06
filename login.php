@@ -15,7 +15,7 @@ $value = isset($_POST['value']) ? $_POST['value'] : NULL;
 if(!empty($key) && !empty($value)){
     // the password hash function will take the value from the form which is the password and hash it by the PASSWORD_DEFAULT algo
     // then it will be stored as a hash in our CSV
-    // we wrap the username in html-entities to ensure that value is always stored safely to be used in HTML output later.
+    // we wrap the username in htmlentities to ensure that value is always stored safely to be used in HTML output later.
     update_file_passwords(htmlentities($key),password_hash($value, PASSWORD_DEFAULT));
 }
 ?>
@@ -31,18 +31,16 @@ if(!empty($key) && !empty($value)){
 </head>
 <body>
 <?php echo 'Secure Page: ' . $_SERVER['HTTPS']; ?>
-    <form method ="POST" action="modifiy_file_password_hash.php">
-        <label> Username
-            <input type="text" name="key"/>
-        </label><br>
+<form method ="POST" action="modifiy_file_password_hash.php">
+    <label> Username
+        <input type="text" name="key"/>
+    </label><br>
 
-        <label> Password
-            <input type ="password" name="value"/>
-        </label><br>
-            <input type= "submit" name="SUBMIT">
-<!--        stop the form from writing data if the user didn't supply a username in the field-->
-        <?php if($key==null): echo "You need a username"; exit; endif; ?>
+    <label> Password
+        <input type ="password" name="value"/>
+    </label><br>
+    <input type= "submit" name="SUBMIT">
 
-    </form>
+</form>
 </body>
 </html>
