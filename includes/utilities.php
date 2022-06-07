@@ -24,6 +24,34 @@ function update_file_passwords($key,$value){
     file_handler($file, $key, $value);
 }
 
+function login($username,$password){
+    $file = fopen('data/users.csv', "r"); // r because only reading from this file
+    flock($file, LOCK_SH); // LOCK_SH lock share will allow other users of the site to do r+w operations at the same  time someone is logging in
+    do{
+        $line = fgetcsv($file);
+        if (isset($line[KEY_FIELD])) {
+            if($line[KEY_FIELD] === $username){
+                $user = $line;
+                break;
+            }
+        }
+    } while($line);
+    flock($file, LOCK_UN);
+    fclose($file);
+
+    if(!isset($user)){
+        echo 'Error: unknown user';
+        return;
+    }
+
+    if(!password_verify($password, $user[VALUE_FIELD])){
+        echo 'Error: Incorrect Password';
+        return;
+    }
+
+    echo 'Password Successful';
+}
+
 /**
  * @param $file
  * @param $key
